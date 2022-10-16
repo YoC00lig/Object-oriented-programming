@@ -17,19 +17,19 @@ public enum MapDirection {
 
     public MapDirection next() {
         return switch (this) {
-            case NORTH -> EAST;
-            case SOUTH -> WEST;
-            case WEST -> NORTH;
-            case EAST -> SOUTH;
+            case NORTH -> MapDirection.EAST;
+            case SOUTH -> MapDirection.WEST;
+            case WEST -> MapDirection.NORTH;
+            case EAST -> MapDirection.SOUTH;
         };
     }
 
     public MapDirection previous() {
         return switch (this) {
-            case NORTH -> WEST;
-            case SOUTH -> EAST;
-            case WEST -> SOUTH;
-            case EAST -> NORTH;
+            case NORTH -> MapDirection.WEST;
+            case SOUTH -> MapDirection.EAST;
+            case WEST -> MapDirection.SOUTH;
+            case EAST -> MapDirection.NORTH;
         };
     }
 

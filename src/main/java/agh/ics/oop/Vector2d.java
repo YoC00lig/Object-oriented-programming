@@ -15,11 +15,11 @@ public class Vector2d{
     }
 
     public boolean precedes(Vector2d other){
-        return (this.x <= other.x && this.y <= other.y);
+        return this.x <= other.x && this.y <= other.y;
     }
 
     public boolean follows(Vector2d other){
-        return (this.x >= other.x && this.y >= other.y);
+        return this.x >= other.x && this.y >= other.y;
     }
 
     public Vector2d add(Vector2d other){
@@ -48,7 +48,7 @@ public class Vector2d{
             return false;
         }
         Vector2d that = (Vector2d) other;
-        return (this.x == that.x && this.y == that.y);
+        return this.x == that.x && this.y == that.y;
     }
 
     @Override
