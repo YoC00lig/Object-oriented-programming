@@ -2,6 +2,18 @@ package agh.ics.oop;
 
 public class World {
     public static void main(String[] args){
+        //lab2
+        Vector2d position1 = new Vector2d(1,2);
+        System.out.println(position1);
+        Vector2d position2 = new Vector2d(-2,1);
+        System.out.println(position2);
+        System.out.println(position1.add(position2));
+        MapDirection west = MapDirection.WEST;
+        System.out.println(west.toUnitVector());
+        System.out.println(west.previous());
+        System.out.println(west.next());
+
+        //lab1
         System.out.println("Start.");
         Direction[] dirs = new Direction[args.length];
         for (int i = 0; i < args.length; i++){
