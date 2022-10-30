@@ -3,10 +3,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AnimalTest {
-
+    private static final IWorldMap map = new RectangularMap(5, 5);
     @Test
     public void allFuncTest(){
-        Animal dog = new Animal();
+        Animal dog = new Animal(map);
         String[] input = new String[]{"f", "a", "f", "l", "lef","backward", "right", "r","f","f"};
         MapDirection[] correctOrientation = {MapDirection.NORTH, MapDirection.NORTH, MapDirection.WEST,
         MapDirection.WEST,MapDirection.NORTH,MapDirection.EAST,MapDirection.EAST,MapDirection.EAST};
@@ -43,7 +43,7 @@ public class AnimalTest {
 
     @Test
     public void OrientationTest(){
-        Animal cat1 = new Animal();
+        Animal cat1 = new Animal(map);
         String[] input = {"rrr","backward", "b", "ao", "ll", "back", "forward", "f", "l", "left", "right", "forw"};
         MapDirection[] correct = {MapDirection.NORTH, MapDirection.NORTH, MapDirection.NORTH, MapDirection.NORTH,
                                     MapDirection.WEST, MapDirection.SOUTH, MapDirection.WEST};
@@ -57,7 +57,7 @@ public class AnimalTest {
 
     @Test
     public void PositionTest(){
-        Animal cat2 = new Animal();
+        Animal cat2 = new Animal(map);
         String[] input = {"b", "b", "l", "f", "f", "f", "r", "r","f","f","f","f","f"};
         Vector2d[] correct = {new Vector2d(2,1), new Vector2d(2,0),new Vector2d(2,0), new Vector2d(1,0),
                 new Vector2d(0,0), new Vector2d(0,0), new Vector2d(0,0), new Vector2d(0,0),

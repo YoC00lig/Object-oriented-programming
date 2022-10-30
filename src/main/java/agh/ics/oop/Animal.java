@@ -3,9 +3,23 @@ package agh.ics.oop;
 public class Animal {
     private MapDirection orientation = MapDirection.NORTH;
     private Vector2d position = new Vector2d(2,2);
+    private final IWorldMap map;
 
+    public Animal(IWorldMap map) {
+        this.map = map;
+    }
+
+    public Animal(IWorldMap map, Vector2d initialPosition) {
+        this.position = initialPosition;
+        this.map = map;
+    }
     public String toString() {
-        return "(" + this.orientation + ", " + this.position + ")";
+        return switch (this.orientation) {
+            case SOUTH -> "S";
+            case WEST -> "W";
+            case NORTH -> "N";
+            case EAST -> "E";
+        };
     }
 
     public boolean isAt(Vector2d Position){
@@ -16,28 +30,26 @@ public class Animal {
         return this.orientation;
     }
 
-    public void move(MoveDirection direction) {
-        Vector2d newPos;
-        int maxSize = 5;
-
-        switch (direction) {
-            case LEFT -> {
-                this.orientation = this.orientation.previous();
-                return;
-            }
-            case RIGHT -> {
-                this.orientation = this.orientation.next();
-                return;
-            }
-            case FORWARD -> newPos = this.position.add(this.orientation.toUnitVector());
-            case BACKWARD -> newPos = this.position.subtract(this.orientation.toUnitVector());
-            default -> {
-                return;
-            }
-        }
-
-        if (newPos.x < maxSize && newPos.y < maxSize && newPos.x >= 0 && newPos.y >= 0) {
-            this.position = newPos;
-        }
+    public Vector2d getPosition() {
+        return this.position;
     }
+
+    public void move(MoveDirection direction) {
+        switch (direction) {
+            case LEFT -> this.orientation = this.orientation.previous();
+            case RIGHT -> this.orientation = this.orientation.next();
+            case FORWARD -> {
+                Vector2d newPos = this.position.add(this.orientation.toUnitVector());
+                if (this.map.canMoveTo(newPos)) {
+                    this.position = newPos;
+                }
+            }
+            case BACKWARD -> {
+                Vector2d newPos = this.position.subtract(this.orientation.toUnitVector());
+                if (this.map.canMoveTo(newPos)) {
+                    this.position = newPos;
+                }
+            }
+    }
+}
 }
