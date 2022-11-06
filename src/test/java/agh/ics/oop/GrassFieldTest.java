@@ -5,24 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GrassFieldTest {
 
     @Test
-    public void movementTest() {
-        String[] moves = new String[]{"f",  "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"};
-        MoveDirection[] directions = OptionsParser.parse(moves);
-        IWorldMap map = new GrassField(5);
-        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
-        IEngine engine = new SimulationEngine(directions, map, positions);
-        engine.run();
-        Animal a1 = (Animal) map.objectAt(new Vector2d(2,-1));
-        Animal a2 = (Animal) map.objectAt(new Vector2d(3,7));
-
-        assertNotEquals(a1,null);
-        assertNotEquals(a2, null);
-
-        assertEquals(a1.toString(), "S");
-        assertEquals(a2.toString(), "N");
-    }
-
-    @Test
     public void testUpperLower() {
         GrassField map = new GrassField(0);
         Animal animal1 = new Animal(map, new Vector2d(3,4));
