@@ -1,26 +1,23 @@
 package agh.ics.oop;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GrassField extends AbstractWorldMap{
     private final int numberOfGrassFields;
-    private final ArrayList<Grass> grasses;
+    private final Map<Vector2d, Grass> grasses;
 
 
     public GrassField(int number){
         this.numberOfGrassFields = number;
-        this.grasses = new ArrayList<>();
+        this.grasses = new HashMap<>();
         plantGrass();
     }
 
     @Override
     public Object objectAt(Vector2d position) {
-        if (super.objectAt(position) != null) return super.objectAt(position);
-        for (Grass grass: grasses) {
-            if (grass.getPosition().equals(position)) {
-                return grass;
-            }
-        }
-        return null;
+        Object element =  super.objectAt(position);
+        if (element != null) {return element;}
+        else{return grasses.get(position);}
     }
 
     public Vector2d generatePosition(int low, int high){
@@ -33,7 +30,8 @@ public class GrassField extends AbstractWorldMap{
         Vector2d position = generatePosition(low, high);
         for (int i = 0; i < numberOfGrassFields; i++){
             while (isOccupied(position)) {position = generatePosition(low, high);}
-            grasses.add(new Grass(position));
+            Grass grassElement = new Grass(position);
+            this.grasses.put(position, grassElement);
         }
     }
 
@@ -43,13 +41,14 @@ public class GrassField extends AbstractWorldMap{
         Vector2d low = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
         Vector2d high = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
 
-        for (Animal animal : animals) {
-            low = low.lowerLeft(animal.getPosition());
-            high = high.upperRight(animal.getPosition());
+        for (IMapElement elem: animals.values()) {
+            low = low.lowerLeft(elem.getPosition());
+            high = high.upperRight(elem.getPosition());
         }
-        for (Grass grass : grasses) {
-            low = low.lowerLeft(grass.getPosition());
-            high = high.upperRight(grass.getPosition());
+
+        for (IMapElement elem: grasses.values()) {
+            low = low.lowerLeft(elem.getPosition());
+            high = high.upperRight(elem.getPosition());
         }
         return new Vector2d[]{low, high};
     }
