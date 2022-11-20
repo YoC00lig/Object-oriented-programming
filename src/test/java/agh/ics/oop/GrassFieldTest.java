@@ -37,15 +37,20 @@ public class GrassFieldTest {
 
     @Test
     public void placeTest() {
-        GrassField map = new GrassField(0);
-        Animal animal1 = new Animal(map, new Vector2d(3,4));
-        Animal animal2 = new Animal(map, new Vector2d(4,1));
-        Animal animal3 = new Animal(map, new Vector2d(2,2));
-        Animal animal4 = new Animal(map);
-        assertTrue(map.place(animal1));
-        assertTrue(map.place(animal2));
-        assertTrue(map.place(animal3));
-        assertFalse(map.place(animal4));
+        try {
+            GrassField map = new GrassField(0);
+            Animal animal1 = new Animal(map, new Vector2d(3,4));
+            Animal animal2 = new Animal(map, new Vector2d(4,1));
+            Animal animal3 = new Animal(map, new Vector2d(2,2));
+            Animal animal4 = new Animal(map);
+            assertTrue(map.place(animal1));
+            assertTrue(map.place(animal2));
+            assertTrue(map.place(animal3));
+            assertFalse(map.place(animal4));
+        }
+        catch(IllegalArgumentException e){
+            assertEquals(e.getMessage(),"(2,2): It is outside map boundary or occupied.");
+        }
     }
 
 

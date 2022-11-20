@@ -39,15 +39,21 @@ public class RectangularMapTest {
 
     @Test
     public void placeTest() {
-        RectangularMap map = new RectangularMap(5,5);
-        Animal animal1 = new Animal(map, new Vector2d(2,0));
-        Animal animal2 = new Animal(map, new Vector2d(0,2));
-        Animal animal3 = new Animal(map, new Vector2d(3,4));
-        Animal animal4 = new Animal(map, new Vector2d(2,0));
-        assertTrue(map.place(animal1));
-        assertTrue(map.place(animal2));
-        assertTrue(map.place(animal3));
-        assertFalse(map.place(animal4));
+        try {
+            RectangularMap map = new RectangularMap(5,5);
+            Animal animal1 = new Animal(map, new Vector2d(2,0));
+            Animal animal2 = new Animal(map, new Vector2d(0,2));
+            Animal animal3 = new Animal(map, new Vector2d(3,4));
+            Animal animal4 = new Animal(map, new Vector2d(2,0));
+            assertTrue(map.place(animal1));
+            assertTrue(map.place(animal2));
+            assertTrue(map.place(animal3));
+            assertFalse(map.place(animal4));
+        }
+        catch(IllegalArgumentException e){
+            assertEquals(e.getMessage(),"(2,0): It is outside map boundary or occupied.");
+        }
+
     }
 
     @Test

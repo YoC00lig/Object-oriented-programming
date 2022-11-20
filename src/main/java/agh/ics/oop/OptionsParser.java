@@ -4,15 +4,7 @@ public class OptionsParser {
 
     public static MoveDirection[] parse(String[] args) {
 
-        int size = 0;
-        for (String move : args) {
-            int element = switch (move) {
-                case "forward", "f", "backward", "b", "left", "l", "right", "r" -> 1;
-                default -> 0;
-            };
-            size += element;
-        }
-
+        int size = args.length;
         int idx = 0;
         MoveDirection[] directions = new MoveDirection[size];
 
@@ -22,13 +14,10 @@ public class OptionsParser {
                 case "backward", "b" -> MoveDirection.BACKWARD;
                 case "left", "l" -> MoveDirection.LEFT;
                 case "right", "r" -> MoveDirection.RIGHT;
-                default -> null;
+                default -> throw new IllegalArgumentException(move + " is not legal move specification");
             };
-
-            if (ans != null) {
-                directions[idx] = ans;
-                idx++;
-            }
+            directions[idx] = ans;
+            idx++;
         }
 
         return directions;

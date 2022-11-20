@@ -41,5 +41,4 @@ public enum MapDirection {
             case EAST -> new Vector2d(1,0);
         };
     }
-
 }
