@@ -8,42 +8,77 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.HPos;
+import java.io.FileNotFoundException;
 import java.util.Map;
+import javafx.scene.layout.VBox;
+import javafx.application.Platform;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.*;
+import javafx.geometry.Pos;
 
 public class App extends Application {
     private GridPane gridPane;
-    private AbstractWorldMap awMap;
-    final int size = 30;
+    final int size = 40;
+    private Stage stage;
+    private SimulationEngine engine;
+    private Button button;
+    private TextField textField;
+    private AbstractWorldMap map;
 
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage){
-        // Label label = new Label("Zwierzak");
-        // Scene scene = new Scene(label, 400, 400);
-        // primaryStage.setScene(scene);
-        // primaryStage.show();
+    public void start(Stage primaryStage) throws FileNotFoundException, IllegalArgumentException {
+        init();
+        this.stage = primaryStage;
 
-        gridPane = new GridPane();
-        MoveDirection[] directions = OptionsParser.parse(getParameters().getRaw().toArray(new String[0]));
-        AbstractWorldMap map = new GrassField(10);
-        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
-        SimulationEngine engine = new SimulationEngine(directions, map, positions);
-        engine.run();
-        awMap = map;
+        button.setOnAction(event -> {
+            MoveDirection[] directions = OptionsParser.parse(textField.getText().split(" "));
+            engine.setMoves(directions);
+            Thread thread = new Thread(engine);
+            thread.start();
+        });
+
+        HBox input = new HBox(button, textField);
+        VBox mainBox = new VBox(gridPane, input);
+        mainBox.setAlignment(Pos.CENTER);
+        input.setAlignment(Pos.CENTER);
+        Vector2d[] limits = map.findLimits();
+        Vector2d high = limits[0];
+        Vector2d low = limits[0];
+
         drawMap();
-        Scene scene = new Scene(gridPane, 400, 400);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+
+        int width = high.x * size - low.x * size;
+        int height = high.y * size - low.y * size;
+
+        Scene scene = new Scene(mainBox, width, height);
+        stage.setScene(scene);
+        stage.show();
     }
 
-    public void drawMap(){
+    @Override
+    public void init() throws IllegalArgumentException {
+        button = new Button("Start");
+        textField = new TextField();
+        gridPane = new GridPane();
+        map = new GrassField(10);
+        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
+        int moveDelay = 300;
+        engine = new SimulationEngine(map, positions, this, moveDelay);
+    }
+
+    public void drawMap() throws FileNotFoundException {
+        gridPane.getChildren().clear();
+        gridPane = new GridPane();
+
         Label label = new Label("y/x");
-        Map<Vector2d, IMapElement> elements = awMap.getElements();
-        Vector2d low =  awMap.getMapBoundary().findLimits()[0];
-        Vector2d high =  awMap.getMapBoundary().findLimits()[1];
+        Map<Vector2d, IMapElement> elements = map.getElements();
+        Vector2d low = map.getMapBoundary().findLimits()[0];
+        Vector2d high = map.getMapBoundary().findLimits()[1];
 
         gridPane.add(label, 0, 0);
         gridPane.getRowConstraints().add(new RowConstraints(size));
@@ -66,11 +101,23 @@ public class App extends Application {
         }
 
         for (IMapElement element: elements.values()) {
-            Label elem = new Label(element.toString());
+            VBox elem = new GuiElementBox(element).getvBox();
             Vector2d pos = element.getPosition();
             gridPane.add(elem,  pos.x - low.x + 1, high.y - pos.y + 1);
             GridPane.setHalignment(elem, HPos.CENTER);
         }
+
+        stage.setScene(new Scene(gridPane,400,400));
+        stage.show();
     }
 
+    public void draw() {
+        Platform.runLater(() -> {
+            try {
+                drawMap();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 }

@@ -17,4 +17,7 @@ public class Grass implements IMapElement{
         return "*";
     }
 
+    public String getPath(IMapElement object) {
+        return "src/main/resources/grass.png";
+    }
 }

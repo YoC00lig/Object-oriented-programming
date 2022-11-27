@@ -4,7 +4,7 @@ import java.util.Map;
 
 public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
     protected Map<Vector2d, IMapElement> elements;
-    protected abstract Vector2d[] findLimits();
+    public abstract Vector2d[] findLimits();
     protected MapBoundary boundary = new MapBoundary();
 
     public AbstractWorldMap() {
