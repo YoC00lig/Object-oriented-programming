@@ -107,7 +107,7 @@ public class App extends Application {
             GridPane.setHalignment(elem, HPos.CENTER);
         }
 
-        stage.setScene(new Scene(gridPane,400,400));
+        stage.setScene(new Scene(gridPane,800,800));
         stage.show();
     }
 
