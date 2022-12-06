@@ -1,5 +1,6 @@
 # Object-oriented programming course
 <p> The repository contains solutions for object-oriented programming course laboratories at AGH UST.</p>
+<p> Solutions for individual laboratories are placed in the tags. </p>
 <p> The leading programming language during this course: Java </p>
 <p> Tasks and instructions can be found <a href="https://github.com/apohllo/obiektowe-lab">here</a>. </p>
 
