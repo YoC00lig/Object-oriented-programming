@@ -1,4 +1,4 @@
-# Object-oriented programming course
+# 📗 Object-oriented programming course
 <p> The repository contains solutions for object-oriented programming course laboratories at AGH UST.</p>
 <p> Solutions for individual laboratories are placed in the tags. </p>
 <p> The leading programming language during this course: Java </p>
